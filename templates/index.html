@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuickTask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 QuickTask</h1>
+        <div class="dark-mode-toggle">
+    <label class="switch">
+    <input type="checkbox" id="darkToggle">
+    <span class="slider">
+      <span class="circle" id="circleLabel">L</span>
+    </span>
+  </label>
+</div>
+
+        <form action="/add" method="post" class="task-form">
+            <input type="text" name="task" placeholder="Enter task..." required>
+            <input type="text" name="tag" placeholder="Tag (e.g. Work)">
+            <button type="submit">➕ Add Task</button>
+        </form>
+
+        <ul class="task-list">
+            {% for task in tasks %}
+            <li class="{{ 'done' if task[3] }}">
+                <div>
+                    <span>{{ task[1] }}</span>
+                    {% if task[2] %}
+                        <span class="tag">{{ task[2] }}</span>
+                    {% endif %}
+                </div>
+                <div class="actions">
+                    <a href="/toggle/{{ task[0] }}">✅</a>
+                    <a href="/delete/{{ task[0] }}">🗑️</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
